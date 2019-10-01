@@ -10,6 +10,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
 
 class IndexController extends Controller
 {
@@ -66,6 +67,12 @@ class IndexController extends Controller
                 }
             }
 
+//            echo '<pre>';
+//            print_r(explode('=', $kontrahents[0][1])[1]);
+//            echo '</pre>';
+//            exit();
+
+
             $header = [];
 
             //get header array
@@ -102,12 +109,15 @@ class IndexController extends Controller
                         if (trim(explode('=', trim($kontrahents[$k][$j]))[0]) == $header[$i-1])
                             if ($i <= 26) {
                                 $spreadsheet->getActiveSheet()
-                                    ->setCellValue(chr(64 + (int)$i) . (string)($k + 2),
-                                        trim(explode('=', trim($kontrahents[$k][$j]))[1]));
+                                    ->setCellValueExplicit(chr(64 + (int)$i) . (string)($k + 2),
+                                        (string)trim(explode('=', $kontrahents[$k][$j])[1]),
+                                        DataType::TYPE_STRING);
+
                             } else {
                                 $spreadsheet->getActiveSheet()
-                                    ->setCellValue(chr(65) . chr(64 + (int)$letter) . (string)($k + 2),
-                                        trim(explode('=', trim($kontrahents[$k][$j]))[1]));
+                                    ->setCellValueExplicit(chr(65) . chr(64 + (int)$letter) . (string)($k + 2),
+                                        (string)trim(explode('=', $kontrahents[$k][$j])[1]),
+                                        DataType::TYPE_STRING);
                                 $letter++;
                             }
                     }
