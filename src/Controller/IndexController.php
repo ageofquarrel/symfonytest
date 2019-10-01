@@ -62,6 +62,10 @@ class IndexController extends Controller
             }
         }
 
+//            echo '<pre>';
+//            print_r($kontrahents);
+//            echo '</pre>';
+
         $header = [];
 
         //get header array
@@ -91,7 +95,8 @@ class IndexController extends Controller
 
         $letter = 1;
         //output contents
-        for ($k = 0; $k < count($kontrahents); $k++)
+        for ($k = 0; $k < count($kontrahents); $k++) {
+            $letter = 1;
             for ($j = 0; $j < count($kontrahents[$k]); $j++)
                 for ($i = 1; $i < count($header); $i++) {
                     if (trim(explode('=', trim($kontrahents[$k][$j]))[0]) == $header[$i])
@@ -99,14 +104,14 @@ class IndexController extends Controller
                             $spreadsheet->getActiveSheet()
                                 ->setCellValue(chr(64 + (int)$i) . (string)($k + 2),
                                     trim(explode('=', trim($kontrahents[$k][$j]))[1]));
-                        }
-                        else {
+                        } else {
                             $spreadsheet->getActiveSheet()
                                 ->setCellValue(chr(65) . chr(64 + (int)$letter) . (string)($k + 2),
                                     trim(explode('=', trim($kontrahents[$k][$j]))[1]));
                             $letter++;
                         }
                 }
+        }
 
         $writer = new Xlsx($spreadsheet);
 
