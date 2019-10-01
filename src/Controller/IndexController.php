@@ -110,13 +110,13 @@ class IndexController extends Controller
                             if ($i <= 26) {
                                 $spreadsheet->getActiveSheet()
                                     ->setCellValueExplicit(chr(64 + (int)$i) . (string)($k + 2),
-                                        (string)trim(explode('=', $kontrahents[$k][$j])[1]),
+                                        (string)mb_convert_encoding(trim(explode('=', $kontrahents[$k][$j])[1]), 'UTF-8'),
                                         DataType::TYPE_STRING);
 
                             } else {
                                 $spreadsheet->getActiveSheet()
                                     ->setCellValueExplicit(chr(65) . chr(64 + (int)$letter) . (string)($k + 2),
-                                        (string)trim(explode('=', $kontrahents[$k][$j])[1]),
+                                        (string)mb_convert_encoding(trim(explode('=', $kontrahents[$k][$j])[1]), 'UTF-8'),
                                         DataType::TYPE_STRING);
                                 $letter++;
                             }
